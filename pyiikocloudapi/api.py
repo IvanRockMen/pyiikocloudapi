@@ -208,7 +208,7 @@ class BaseAPI:
         if timeout != self.DEFAULT_TIMEOUT:
             self.timeout = timeout
         self.logger.info(f"{url=}, {data=}, {model_response_data=}, {model_error=}")
-        response = self.session_s.post(f'{self.base_url}{url}', json=json.dumps(data),
+        response = self.session_s.post(f'{self.base_url}{url}', json=data,
                                        headers=self.headers)
         if response.status_code == 401:
             self.__get_access_token()
