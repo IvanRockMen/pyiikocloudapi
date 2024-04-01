@@ -222,7 +222,7 @@ class BaseAPI:
                     f"Входные данные:\n{response.request.url=}\n{response.request.body=}\n{response.request.headers=}\n\nВыходные данные:\n{response.headers=}\n{response.content=}\n\n")
             except Exception as err:
                 self.logger.debug(f"{err=}")
-        response_data: dict = None
+        response_data: dict = {}
         if response.headers.get("Content-Type") == "application/json" and len(response.content) > 0:
             response_data = json.loads(response.content)
         self.__last_data = response_data
