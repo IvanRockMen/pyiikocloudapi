@@ -1662,6 +1662,34 @@ class Customers(BaseAPI):
                                 self.customer_card_add.__name__,
                                 f"Не удалось: \n{err}")
         
+    def customer_card_delete(self, customer_id: str, card_track: str, organization_id: str, timeout=BaseAPI.DEFAULT_TIMEOUT):
+        
+        data = {
+            "customerId": customer_id,
+            "cardTrack": card_track,
+            "organizationId": organization_id,
+        }
+
+        try:
+            return self._post_request(
+                url="/api/1/loyalty/iiko/customer/card/remove",
+                data=data,
+                model_response_data=None,
+                timeout=timeout,
+            )
+        except requests.exceptions.RequestException as err:
+            raise PostException(
+                self.__class__.__qualname__,
+                self.customer_card_delete.__name__,
+                f"Не удалось удалить карту клиенту: \n{err}"
+            )
+        except TypeError as err:
+            raise PostException(
+                self.__class__.__qualname__,
+                self.customer_card_delete.__name__,
+                f"Не удалось: \n{err}"
+            )
+        
     def withdraw_balance(
         self,
         customer_id: str,
