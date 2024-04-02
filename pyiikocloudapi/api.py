@@ -226,7 +226,10 @@ class BaseAPI:
         try:
             response_data = response.json()
         except ValueError:
-            response_data = {"errorDescription": response.text, "error": "Unknown response"}
+            if len(response.content) == 0:
+                response_data = {}
+            else:
+                response_data = {"errorDescription": response.text, "error": "Unknown response"}
         self.__last_data = response_data
         if self.__return_dict:
             return response_data
