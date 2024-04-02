@@ -223,8 +223,10 @@ class BaseAPI:
             except Exception as err:
                 self.logger.debug(f"{err=}")
         response_data: dict = {}
-        if response.headers.get("Content-Type") == "application/json" and len(response.content) > 0:
-            response_data = json.loads(response.content)
+        try:
+            response_data = response.json()
+        except ValueError:
+            response_data = {"errorDescription": response.text, "error": "Unknown response"}
         self.__last_data = response_data
         if self.__return_dict:
             return response_data
