@@ -1681,7 +1681,7 @@ class Customers(BaseAPI):
 
         try:
             return self._post_request(
-                url="/api/1/loyalty/iiko/customer/wallet/chargeof",
+                url="/api/1/loyalty/iiko/customer/wallet/chargeoff",
                 data=data,
                 model_response_data=None,
                 timeout=timeout,
