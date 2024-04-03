@@ -1728,9 +1728,88 @@ class Customers(BaseAPI):
             )
 
 
+class CustomerCategories(BaseAPI):
 
+    def add_customer_category(self, customer_id: str, category_id: str, organization_id: str, timeout = BaseAPI.DEFAULT_TIMEOUT):
+        
+        data = {
+            "customerId": customer_id,
+            "categoryId": category_id,
+            "organizationId": organization_id,
+        }
+        
+        try:
+            return self._post_request(
+                url="/api/1/loyalty/iiko/customer_category/add",
+                data=data,
+                model_response_data=None,
+                timeout=timeout,
+            )
+        except requests.exceptions.RequestException as err:
+            raise PostException(
+                self.__class__.__qualname__,
+                self.add_customer_category.__name__,
+                f"Не удалось добавить категорию клиенту: \n{err}"
+            )
+        except TypeError as err:
+            raise PostException(
+                self.__class__.__qualname__,
+                self.add_customer_category.__name__,
+                f"Не удалось: \n{err}"
+            )
 
+    def delete_customer_category(self, customer_id: str, category_id: str, organization_id: str, timeout = BaseAPI.DEFAULT_TIMEOUT):
+        
+        data = {
+            "customerId": customer_id,
+            "categoryId": category_id,
+            "organizationId": organization_id,
+        }
+
+        try:
+            return self._post_request(
+                url = "/api/1/loyalty/iiko/customer_category/remove",
+                data=data,
+                model_response_data=None,
+                timeout=timeout,
+            )
+        except requests.exceptions.RequestException as err:
+            raise PostException(
+                self.__class__.__qualname__,
+                self.delete_customer_category.__name__,
+                f"Не удалось удалить категорию клиенту: \n{err}"
+            )
+        except TypeError as err:
+            raise PostException(
+                self.__class__.__qualname__,
+                self.delete_customer_category.__name__,
+                f"Не удалось: \n{err}"
+            )
+        
+    def get_customer_categories(self, organization_id: str, timeout = BaseAPI.DEFAULT_TIMEOUT):
+        data = {
+            "organizationId": organization_id
+        }
+        try:
+            return self._post_request(
+                url="/api/1/loyalty/iiko/customer_category",
+                data=data,
+                model_response_data=GuestCategoriesModel,
+                timeout=timeout,
+            )
+        except requests.exceptions.RequestException as err:
+            raise PostException(
+                self.__class__.__qualname__,
+                self.get_customer_categories.__name__,
+                f"Не удалось получить категории: \n{err}"
+            )
+        except TypeError as err:
+            raise PostException(
+                self.__class__.__qualname__,
+                self.get_customer_categories.__name__,
+                f"Не удалось: \n{err}"
+            )
 
 class IikoTransport(Orders, Deliveries, Employees, Address, DeliveryRestrictions, TerminalGroup, Menu, Dictionaries,
-                    DiscountPromotion, Commands, Notifications, Customers):
+                    DiscountPromotion, Commands, Notifications, Customers, CustomerCategories):
     pass

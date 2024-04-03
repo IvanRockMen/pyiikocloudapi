@@ -1064,3 +1064,6 @@ class CustomerCreateOrUpdateModel(BaseModel):
     id: str
 class CustomerProgramAddResponse(BaseModel):
     user_wallet_id: str = Field(alias="userWalletId")
+
+class GuestCategoriesModel(BaseModel):
+    guestCategories: List[CategoriesCIModel]
